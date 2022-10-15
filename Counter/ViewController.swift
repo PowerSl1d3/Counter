@@ -23,6 +23,12 @@ class ViewController: UIViewController {
         button.layer.cornerRadius = 9
         button.setTitle("Нажми меня", for: .normal)
 
+        // Start Test
+        button.layer.shadowOffset = CGSize(width: 5, height: 5)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowRadius = 0
+        // End Test
+
         return button
     }()
 
