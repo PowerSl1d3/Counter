@@ -1,18 +1,18 @@
 //
-//  ViewController.swift
+//  SecondViewController.swift
 //  Counter
 //
-//  Created by Олег Аксененко on 03.10.2022.
+//  Created by Олег Аксененко on 17.10.2022.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class SecondViewController: UIViewController {
     private let viewControllerName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.contentMode = .center
-        label.text = String(describing: ViewController.self)
+        label.text = String(describing: SecondViewController.self)
         label.textColor = .black
 
         return label
@@ -28,6 +28,12 @@ class ViewController: UIViewController {
         return button
     }()
 
+    // Для данной задачи это излишне и можно было бы обойтись обычной переменной,
+    // но в качестве примера, здесь мы работаем с абстракцией, а не с конкретным
+    // классом, поэтому, в дальнейшем, можно было бы писать свои счётчики с разными
+    // шагами (например умножающе на 2 своё значение) и встраивать их извне (DI),
+    // при этом не меняя логику основного класса
+
     // Вызывается после инициализации всех полей ViewController'а и загрузке View
     // На этом этапе границы View не установлены, поэтому мы не можем обращаться
     // к значениям геометрии (высота, ширина и пр.)
@@ -36,11 +42,11 @@ class ViewController: UIViewController {
 
         print(#function, "Контроллер загрузился в память")
 
-        view.backgroundColor = .white
+        view.backgroundColor = .yellow
 
         view.addSubview(viewControllerName)
         view.addSubview(enterSecondViewControllerButton)
-        enterSecondViewControllerButton.addTarget(self, action: #selector(buttonDidTap(sender:forEvent:)), for: [.touchUpInside, .touchUpOutside])
+        enterSecondViewControllerButton.addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
 
         setupConstraints()
     }
@@ -53,7 +59,7 @@ class ViewController: UIViewController {
 
 // MARK: Lifecycle
 
-extension ViewController {
+extension SecondViewController {
     // Вызывается перед появлением View на экране.
     // Этот метод вызывается перед тем как View будет добавлено в текущую
     // иерархию, перед отработкой какой бы то ни было анимации. Этот метод
@@ -143,7 +149,7 @@ extension ViewController {
 
 // MARK: Not lifecycle methods
 
-extension ViewController {
+extension SecondViewController {
     // Не является частью жизненного цикла viewController'а, но нужно понимать,
     // что он вызывается сразу после инициализацией, перед подготовкой перехода у
     // viewController'а, который задан при помощи storyboard'а.
@@ -158,14 +164,14 @@ extension ViewController {
     // и присвоить ему какие либо первоначальные значение, например цвет и пр.
     override func loadView() {
         super.loadView()
-        
+
         print(#function)
     }
 }
 
 // MARK: Constraints
 
-private extension ViewController {
+private extension SecondViewController {
     private enum Constants {
         static let defaultInset: CGFloat = 16
 
@@ -189,11 +195,9 @@ private extension ViewController {
 
 // MARK: Actions
 
-private extension ViewController {
-    @objc func buttonDidTap(sender: UIButton, forEvent event: UIEvent) {
-        print(event.description)
-        let secondViewController = SecondViewController()
-        secondViewController.modalPresentationStyle = .fullScreen
-        present(secondViewController, animated: true)
+private extension SecondViewController {
+    @objc func buttonDidTap() {
+        let viewController = SecondViewController()
+        present(viewController, animated: true)
     }
 }
